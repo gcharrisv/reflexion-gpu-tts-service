@@ -1,0 +1,12 @@
+# ─── gpu_tts_service/requirements.txt ────────────────────────────────
+fastapi==0.110.1
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+numpy>=1.24
+soundfile>=0.12
+scipy>=1.11
+# Pull OpenVoice directly from GitHub (MIT‑licensed)
+ git+https://github.com/myshell-ai/OpenVoice.git
+# Torch is installed with CUDA support in the base image, but install matching wheels if needed.
+ torch==2.2.2+cu122 --extra-index-url https://download.pytorch.org/whl/cu122
+aiofiles>=23.2
