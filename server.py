@@ -13,7 +13,8 @@ import soundfile as sf
 import numpy as np
 
 # Import OpenVoice once (loads model onto GPU)
-from openvoice import se_extractor, commons, tts
+from openvoice import se_extractor, commons
+from openvoice.tts import TTSInfer
 
 MODEL_NAME = "openvoice_v2"
 
@@ -21,7 +22,7 @@ MODEL_NAME = "openvoice_v2"
 print("[OpenVoice] loading model …")
 start = time.time()
 
-model_ins = tts.TTSInfer("/root/.cache/openvoice")  # defaults to ~/.cache/openvoice
+model_ins = TTSInfer("/root/.cache/openvoice")  # defaults to ~/.cache/openvoice
 print(f"[OpenVoice] model ready in {time.time()-start:.1f}s")
 
 app = FastAPI()
