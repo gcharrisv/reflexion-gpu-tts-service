@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
+FROM nvidia/cuda:12.8.1-runtime-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # ---- system deps + Python 3.11 ----
@@ -17,10 +17,9 @@ WORKDIR /app
 
 # ---- install PyTorch CUDA wheel first ----
 RUN pip install --no-cache-dir \
-        --index-url https://download.pytorch.org/whl/cu122 \
-        torch==2.3.0rc1+cu122 torchvision==0.18.0rc1+cu122 torchaudio==2.3.0rc1+cu122 \
-        --extra-index-url https://download.pytorch.org/whl/cu122
-        
+      torch torchvision torchaudio \
+      --extra-index-url https://download.pytorch.org/whl/cu128
+
 # ---- the rest of the deps ----
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
