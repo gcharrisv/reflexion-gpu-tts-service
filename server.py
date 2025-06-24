@@ -14,7 +14,7 @@ import numpy as np
 
 # Import OpenVoice once (loads model onto GPU)
 from openvoice import se_extractor, commons
-from openvoice.tts import TTSInfer
+from openvoice.tts_infer import TTSInfer 
 
 MODEL_NAME = "openvoice_v2"
 
