@@ -12,17 +12,15 @@ from pydantic import BaseModel, Field
 import soundfile as sf
 import numpy as np
 
-# Import OpenVoice once (loads model onto GPU)
+# ---- server.py (top) -------------------------------------------------
 from openvoice import se_extractor, commons
-from openvoice.tts_infer import TTSInfer 
+import openvoice.tts as tts          # ← this module contains TTSInfer
+# ---------------------------------------------------------------------
 
-MODEL_NAME = "openvoice_v2"
-
-# /// Load model (approx. 5‑6 GB VRAM) ///
 print("[OpenVoice] loading model …")
 start = time.time()
 
-model_ins = TTSInfer("/root/.cache/openvoice")  # defaults to ~/.cache/openvoice
+model_ins = tts.TTSInfer("/root/.cache/openvoice")   # uses the class inside
 print(f"[OpenVoice] model ready in {time.time()-start:.1f}s")
 
 app = FastAPI()
