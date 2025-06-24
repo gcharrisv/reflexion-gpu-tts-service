@@ -1,9 +1,7 @@
-# CUDA-enabled base (runtime only)
 FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
-
 ENV DEBIAN_FRONTEND=noninteractive
 
-# ---------- system deps + Python 3.11 ----------
+# ---- system deps + Python 3.11 ----
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         software-properties-common git ffmpeg curl && \
@@ -17,16 +15,16 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-# ---------- install CUDA build of PyTorch first ----------
+# ---- install PyTorch CUDA wheel first ----
 RUN pip install --no-cache-dir \
         --index-url https://download.pytorch.org/whl/cu122 \
-        torch==2.2.2+cu122
+        torch==2.2.0+cu122
 
-# ---------- rest of Python deps ----------
+# ---- the rest of the deps ----
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ---------- copy app code ----------
+# ---- copy app code ----
 COPY . .
 
 EXPOSE 8000
