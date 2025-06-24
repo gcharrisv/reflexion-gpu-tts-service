@@ -1,9 +1,7 @@
-# --- gpu_tts_service/Dockerfile -------------------------------------
 FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
-
 ENV DEBIAN_FRONTEND=noninteractive
 
-# ---------- system deps + Python 3.11 --------------------------------
+# system deps + Python 3.11
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         software-properties-common git ffmpeg curl && \
@@ -17,12 +15,10 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-# ---------- Python deps ----------------------------------------------
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# ---------- App code -------------------------------------------------
 COPY . .
 
 EXPOSE 8000
