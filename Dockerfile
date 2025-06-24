@@ -1,12 +1,12 @@
 # ---------- gpu_tts_service/Dockerfile --------------------------------
-# CUDA 11.8 runtime (works with cu118 wheels)
 FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-# --- system deps  +  Python 3.10 ---------------------------------------
+# --- system deps + Python 3.10 ----------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        software-properties-common git ffmpeg curl wget unzip && \
+        software-properties-common git git-lfs ffmpeg curl wget unzip && \
+    git lfs install && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -22,14 +22,12 @@ RUN pip install --no-cache-dir \
         --index-url https://download.pytorch.org/whl/cu118 \
         torch==2.2.2+cu118 torchvision==0.17.2+cu118 torchaudio==2.2.2+cu118
 
-# --- Download OpenVoice checkpoints (≈2 GB) ----------------------------
-RUN mkdir -p /root/.cache/openvoice/checkpoints && \
-    wget -qO /tmp/en.zip \
-        https://huggingface.co/myshell-ai/OpenVoice/resolve/main/checkpoints/base_speakers/EN.zip && \
-    unzip -q /tmp/en.zip -d /root/.cache/openvoice/checkpoints && rm /tmp/en.zip && \
-    wget -qO /tmp/conv.zip \
-        https://huggingface.co/myshell-ai/OpenVoice/resolve/main/checkpoints/converter.zip && \
-    unzip -q /tmp/conv.zip -d /root/.cache/openvoice/checkpoints && rm /tmp/conv.zip
+# --- Clone OpenVoice checkpoints (≈2 GB) -------------------------------
+RUN mkdir -p /tmp && \
+    git clone --depth 1 https://huggingface.co/myshell-ai/OpenVoice /tmp/ov && \
+    mkdir -p /root/.cache/openvoice && \
+    cp -r /tmp/ov/checkpoints /root/.cache/openvoice && \
+    rm -rf /tmp/ov
 
 # --- Python deps -------------------------------------------------------
 COPY requirements.txt .
