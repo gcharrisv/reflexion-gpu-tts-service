@@ -23,6 +23,16 @@ RUN pip install --no-cache-dir \
 
 # --- remaining Python deps ----------------------------------------------------
 COPY requirements.txt .
+
+# ---------- Download OpenVoice checkpoints (2 GB) ----------
+RUN mkdir -p /root/.cache/openvoice/checkpoints && \
+    wget -qO /tmp/en.zip  https://huggingface.co/myshell-ai/OpenVoice/resolve/main/checkpoints/base_speakers/EN.zip && \
+    unzip -q /tmp/en.zip  -d /root/.cache/openvoice/checkpoints && \
+    rm /tmp/en.zip && \
+    wget -qO /tmp/conv.zip https://huggingface.co/myshell-ai/OpenVoice/resolve/main/checkpoints/converter.zip && \
+    unzip -q /tmp/conv.zip -d /root/.cache/openvoice/checkpoints && \
+    rm /tmp/conv.zip
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # --- app code -----------------------------------------------------------------
