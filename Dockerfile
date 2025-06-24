@@ -18,8 +18,9 @@ WORKDIR /app
 # ---- install PyTorch CUDA wheel first ----
 RUN pip install --no-cache-dir \
         --index-url https://download.pytorch.org/whl/cu122 \
-        torch==2.2.0+cu122
-
+        torch==2.3.0rc1+cu122 torchvision==0.18.0rc1+cu122 torchaudio==2.3.0rc1+cu122 \
+        --extra-index-url https://download.pytorch.org/whl/cu122
+        
 # ---- the rest of the deps ----
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
