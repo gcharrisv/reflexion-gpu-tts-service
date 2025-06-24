@@ -1,9 +1,11 @@
---extra-index-url https://download.pytorch.org/whl/cu122
+# --- core deps ---
 fastapi==0.110.1
 uvicorn[standard]==0.29.0
 pydantic==2.7.1
 numpy>=1.24
 soundfile>=0.12
 scipy>=1.11
-git+https://github.com/myshell-ai/OpenVoice.git@main
 aiofiles>=23.2
+
+# --- OpenVoice (pull straight from GitHub main branch) ---
+git+https://github.com/myshell-ai/OpenVoice.git@main
